@@ -9,7 +9,7 @@ public abstract class BasePresenter<V extends BaseView, M extends ModelBase> imp
     private V view;
     private M model;
 
-    public BasePresenter(V view, M model) {
+    BasePresenter(V view, M model) {
         this.view = view;
         this.model = model;
         model.addModelChangedListener((this));

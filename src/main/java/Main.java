@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Lotto Histrology");
 
-        primaryStage.setScene(createScene( loadMainPane() ));
+        primaryStage.setScene( createScene( loadMainPane() ));
 
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -22,10 +22,7 @@ public class Main extends Application {
      *Creates the main application scene
      */
     private Scene createScene(Pane mainPane){
-
-        Scene scene = new Scene( mainPane );
-
-        return scene;
+        return new Scene(mainPane);
     }
 
     /**
@@ -37,7 +34,6 @@ public class Main extends Application {
     private Pane loadMainPane() throws IOException {
 
         HomePresenter homePresenter = new HomePresenter();
-
         return homePresenter.getView();
     }
     public static void main(String[] args){
