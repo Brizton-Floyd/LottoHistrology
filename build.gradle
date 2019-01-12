@@ -14,8 +14,9 @@ repositories {
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.3.11'
     implementation 'de.jensd:fontawesomefx:8.+'
-    implementation 'com.jfoenix:jfoenix:9.+'
+    implementation 'com.jfoenix:jfoenix:8.+'
     implementation 'org.mongodb:mongo-java-driver:3.+'
+    implementation 'org.jsoup:jsoup:1.+'
     
     testImplementation 'org.mockito:mockito-core:1.+'
     

@@ -17,6 +17,4 @@ public abstract class BaseView<P extends BasePresenter> extends AnchorPane {
 
     public abstract void setUpUi();
 
-    public abstract AnchorPane getDisplay();
-
 }
