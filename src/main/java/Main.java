@@ -8,14 +8,18 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+    private Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Lotto Histrology");
+        this.primaryStage = primaryStage;
 
-        primaryStage.setScene( createScene( loadMainPane() ));
+        this.primaryStage.setTitle("Lotto Histrology");
 
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        this.primaryStage.setScene( createScene( loadMainPane() ));
+
+        this.primaryStage.setResizable(false);
+        this.primaryStage.show();
     }
 
     /**
@@ -25,15 +29,9 @@ public class Main extends Application {
         return new Scene(mainPane);
     }
 
-    /**
-     *Loads the main fxml layout sets up the screen navigator
-     *Loads the firest lotto screen into the fxml layout
-     *@return the loaded pane.
-     *@throws IOException if the pane could not be loaded.
-     */
-    private Pane loadMainPane() throws IOException {
+    private Pane loadMainPane() {
 
-        HomePresenter homePresenter = new HomePresenter();
+        HomePresenter homePresenter = new HomePresenter(primaryStage);
         return homePresenter.getView();
     }
     public static void main(String[] args){

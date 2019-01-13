@@ -11,16 +11,20 @@ import presenter.HomePresenter;
 
 import java.util.*;
 
-public class HomeView extends BaseView{
+public class HomeView extends BaseView<HomePresenter> {
 
     private StackPane viewStackPane;
+    private List<JFXButton> gameOutBtns;
+    private List<String> previousClickedButtonList;
 
     public HomeView(){
         setPrefWidth(1432);
         setPrefHeight(753);
         viewStackPane = new StackPane();
+        previousClickedButtonList = new ArrayList<>();
         viewStackPane.setId("2");
         viewStackPane.setStyle("-fx-background-color:red");
+        previousClickedButtonList.add("Lotto Dashboard");
     }
 
     @Override
@@ -28,11 +32,14 @@ public class HomeView extends BaseView{
         createButtonPane();
         positionViewPaneOnCanvas();
         buildButtons();
+        getPresenter().handleViewEvent(EventSource.LOTTO_DASHBOARD);
+        gameOutBtns.stream().filter(btn -> btn.getText().equals("Lotto Dashboard")).forEach(e ->e.setDisable(true));
     }
 
     public void injectView(Pane viewPane) {
         viewStackPane.getChildren().setAll(viewPane);
     }
+
     private void buildButtons() {
 
         VBox buttonVbox = (VBox) lookup("#1");
@@ -45,26 +52,31 @@ public class HomeView extends BaseView{
         buttonAndGlyphNames.put("Companion Numbers","TRENDING_NEUTRAL");
         buttonAndGlyphNames.put("Position Sequence Chart","RAY_START_END");
         buttonAndGlyphNames.put("Multiple Chart","TRENDING_UP");
-        buttonAndGlyphNames.put("Gap Spacing Chart","TRENDING_UP");
         buttonAndGlyphNames.put("Load Game Panel","TRENDING_UP");
 
-        List<JFXButton> gameOutBtns = ButtonHelper.buildButtonList( buttonAndGlyphNames, buttonVbox.getPrefWidth() );
+        gameOutBtns = ButtonHelper.buildButtonList( buttonAndGlyphNames, buttonVbox.getPrefWidth() );
         placeActionOnButton( gameOutBtns );
         buttonVbox.getChildren().setAll( gameOutBtns );
 
     }
+
     private void placeActionOnButton(List<JFXButton> gameOutBtns) {
 
         for(JFXButton jfxButton : gameOutBtns){
 
             jfxButton.setOnAction( e -> {
 
+                if(!EventSource.GAME_PANEL.getText().equals( jfxButton.getText() )){
+                    previousClickedButtonList.clear();
+                    previousClickedButtonList.add( jfxButton.getText() );
+                }
+
                 jfxButton.setDisable(true);
                 enableOtherButtons( gameOutBtns, jfxButton.getText());
 
                 EventSource eventSource = Arrays.stream(EventSource.values()).filter(ee -> ee.getText().equals( jfxButton.getText() ))
                         .findFirst().orElse(null);
-                ((HomePresenter)getPresenter()).handleViewEvent(eventSource);
+                getPresenter().handleViewEvent(eventSource);
 
             });
 
@@ -100,5 +112,30 @@ public class HomeView extends BaseView{
         AnchorPane.setTopAnchor(buttonVBox,0.0);
 
         getChildren().add(buttonVBox);
+    }
+
+    public void enableOtherButtons(String name) {
+        enableOtherButtons(gameOutBtns, name);
+        Optional<JFXButton> result = gameOutBtns.stream().filter(btn -> btn.getText().equals(previousClickedButtonList.get(0))).findFirst();
+        if( result.isPresent() ){
+            JFXButton jfxButton = result.get();
+            jfxButton.setDisable(true);
+        }
+    }
+
+    public void enableViewContents(){
+        VBox buttonVbox = (VBox) lookup("#1");
+        StackPane viewPane = (StackPane) lookup("#2");
+
+        buttonVbox.setDisable(false);
+        viewPane.setDisable(false);
+    }
+
+    public void disableViewContents() {
+        VBox buttonVbox = (VBox) lookup("#1");
+        StackPane viewPane = (StackPane) lookup("#2");
+
+        buttonVbox.setDisable(true);
+        viewPane.setDisable(true);
     }
 }
