@@ -7,7 +7,7 @@ public enum EventSource {
     GAP_SPACING("Gap Spacing Chart"),
     LOTTO_DASHBOARD("Lotto Dashboard"),
     GAME_OUT_ANALYSIS("Game Out Chart"),
-    Lottery_Number_Gaps("Lottery Number Gaps"),
+    LOTTERY_NUMBER_GAPS("Lottery Number Gaps"),
     COMPANION_NUMBER("Companion Numbers"),
     POSITION_HIT_SEQUENCE("Position Sequence Chart"),
     MULTiPLE("Multiple Chart");
