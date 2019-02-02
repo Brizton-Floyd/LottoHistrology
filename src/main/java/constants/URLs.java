@@ -1,4 +1,4 @@
-package model;
+package constants;
 
 public enum URLs {
     TEXAS_CASH_FIVE("https://txlottery.org/export/sites/lottery/Games/Cash_Five/Winning_Numbers/cashfive.csv"),

@@ -15,6 +15,8 @@ public final class GamePanelPresenter extends BasePresenter<GamePanelView, GameP
         super(new GamePanelView(), new GamePanelModel());
         this.primaryStage = primaryStage;
         this.homePresenter = homePresenter;
+        // once you create the method to handle game selection events make sure to call the below method to navigate back to dashboard
+           //homePresenter.navigateToDefaultScreen();
         loadGamePanelStage();
     }
 

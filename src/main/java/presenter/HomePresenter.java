@@ -3,19 +3,29 @@ package presenter;
 import constants.EventSource;
 import javafx.stage.Stage;
 import model.HomeViewModel;
+import model.lottogamemodels.FivePositionLotteryGame;
+import services.cacheservice.CacheManager;
+import services.cacheservice.CachedObject;
 import ui.HomeView;
 
 @SuppressWarnings("unchecked")
-public class HomePresenter extends BasePresenter<HomeView, HomeViewModel> implements ViewEvent {
+public final class HomePresenter extends BasePresenter<HomeView, HomeViewModel> implements ViewEvent {
 
     private Stage primaryStage;
 
     public HomePresenter(Stage primaryStage){
-        super(new HomeView(),new HomeViewModel());
+        super(new HomeView(),new HomeViewModel(new FivePositionLotteryGame("Cash Five",1,1,35)));
         this.primaryStage = primaryStage;
 
         getView().setPresenter((this));
+        CacheSetup();
         getView().setUpUi();
+
+    }
+
+    private void CacheSetup() {
+        CachedObject obj = new CachedObject(getModel().getLotteryGame(), getModel().getLotteryGame().getGameName());
+        CacheManager.insertIntoCache(obj);
     }
 
     @Override
@@ -54,7 +64,7 @@ public class HomePresenter extends BasePresenter<HomeView, HomeViewModel> implem
     }
 
     private void launchGameOutPanel() {
-        GamePanelPresenter gamePanelPresenter = new GamePanelPresenter(primaryStage, (this) );
+        new GamePanelPresenter(primaryStage, (this) );
     }
 
     private void injectMultipleView() {
@@ -88,7 +98,7 @@ public class HomePresenter extends BasePresenter<HomeView, HomeViewModel> implem
     }
 
     private void injectLottoDashBoardView() {
-        LottoDashBoardPresenter lottoDashBoardPresenter = new LottoDashBoardPresenter();
+        LottoDashBoardPresenter lottoDashBoardPresenter = new LottoDashBoardPresenter(getModel().getLotteryGame());
         getView().injectView( lottoDashBoardPresenter.getView() );
     }
 
@@ -98,5 +108,9 @@ public class HomePresenter extends BasePresenter<HomeView, HomeViewModel> implem
 
     void enableViewContents() {
         getView().enableViewContents();
+    }
+
+    void navigateToDefaultScreen() {
+        getView().disableDashboardButton();
     }
 }
