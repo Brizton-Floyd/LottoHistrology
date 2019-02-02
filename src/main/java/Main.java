@@ -4,14 +4,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import presenter.HomePresenter;
 
-import java.io.IOException;
-
 public class Main extends Application {
 
     private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         this.primaryStage = primaryStage;
 
         this.primaryStage.setTitle("Lotto Histrology");

@@ -32,8 +32,9 @@ public class HomeView extends BaseView<HomePresenter> {
         createButtonPane();
         positionViewPaneOnCanvas();
         buildButtons();
-        getPresenter().handleViewEvent(EventSource.LOTTO_DASHBOARD);
         gameOutBtns.stream().filter(btn -> btn.getText().equals("Lotto Dashboard")).forEach(e ->e.setDisable(true));
+        getPresenter().handleViewEvent(EventSource.LOTTO_DASHBOARD);
+
     }
 
     public void injectView(Pane viewPane) {
@@ -137,5 +138,17 @@ public class HomeView extends BaseView<HomePresenter> {
 
         buttonVbox.setDisable(true);
         viewPane.setDisable(true);
+    }
+
+    public void disableDashboardButton() {
+        gameOutBtns.forEach( button -> {
+            if(button.getText().equals("Lotto Dashboard")){
+                button.setDisable(true);
+                getPresenter().handleViewEvent(EventSource.LOTTO_DASHBOARD);
+            }
+            else {
+                button.setDisable(false);
+            }
+        });
     }
 }
