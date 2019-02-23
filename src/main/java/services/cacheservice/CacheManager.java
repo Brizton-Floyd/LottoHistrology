@@ -19,4 +19,8 @@ public class CacheManager {
 
         return obj;
     }
+
+    public static void emptyMap(){
+        cachedObjectMap.clear();
+    }
 }

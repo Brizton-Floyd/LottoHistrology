@@ -1,6 +1,9 @@
 package model;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 public interface IModelChangedListener {
 
-    void onModelChanged(String value);
+    <T extends String > void onModelChanged(T value);
 }

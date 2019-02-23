@@ -100,9 +100,11 @@ public class HomeView extends BaseView<HomePresenter> {
         AnchorPane.setLeftAnchor(viewStackPane,200.0);
 
         getChildren().add(viewStackPane);
+
     }
 
     private void createButtonPane(){
+
         VBox buttonVBox = new VBox();
         buttonVBox.setId("1");
 
@@ -113,13 +115,26 @@ public class HomeView extends BaseView<HomePresenter> {
         AnchorPane.setTopAnchor(buttonVBox,0.0);
 
         getChildren().add(buttonVBox);
+
     }
 
-    public void enableOtherButtons(String name) {
-        enableOtherButtons(gameOutBtns, name);
+    public void enableOtherButtons() {
+
+        Optional<JFXButton> load_game_panel = gameOutBtns.stream().filter(button -> button.getText().equals("Load Game Panel")).findFirst();
+        if(load_game_panel.isPresent()){
+            JFXButton jfxButton = load_game_panel.get();
+            jfxButton.setDisable(false);
+        }
+
         Optional<JFXButton> result = gameOutBtns.stream().filter(btn -> btn.getText().equals(previousClickedButtonList.get(0))).findFirst();
         if( result.isPresent() ){
             JFXButton jfxButton = result.get();
+            jfxButton.setDisable(false);
+        }
+
+        Optional<JFXButton> resultTwo = gameOutBtns.stream().filter(button -> button.getText().equals("Lotto Dashboard")).findFirst();
+        if( resultTwo.isPresent() ){
+            JFXButton jfxButton = resultTwo.get();
             jfxButton.setDisable(true);
         }
     }
@@ -140,15 +155,19 @@ public class HomeView extends BaseView<HomePresenter> {
         viewPane.setDisable(true);
     }
 
-    public void disableDashboardButton() {
-        gameOutBtns.forEach( button -> {
-            if(button.getText().equals("Lotto Dashboard")){
-                button.setDisable(true);
-                getPresenter().handleViewEvent(EventSource.LOTTO_DASHBOARD);
-            }
-            else {
-                button.setDisable(false);
+    public void enablePanelButton() {
+
+        gameOutBtns.forEach( b -> {
+            if(b.getText().equals("Load Game Panel")){
+                b.setDisable(false);
             }
         });
+
+        Optional<JFXButton> result = gameOutBtns.stream().filter(btn -> btn.getText().equals(previousClickedButtonList.get(0))).findFirst();
+        if( result.isPresent() ){
+            JFXButton jfxButton = result.get();
+            jfxButton.setDisable(true);
+        }
+
     }
 }
