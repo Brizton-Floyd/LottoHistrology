@@ -22,6 +22,8 @@ public abstract class LotteryGame {
     }
 
     public DrawResult getDrawResult() {
+        if(drawResult == null)
+            drawResult = new DrawResult();
         return drawResult;
     }
 }

@@ -4,15 +4,19 @@ import java.util.*;
 
 public class GamePanelModel extends ModelBase {
 
-    private Map<String, Integer> gameAndIdMap;
+    private Map<String, String> gameAndIdMap;
 
-    public GamePanelModel(){ gameAndIdMap = new HashMap<>();}
+    public GamePanelModel(){ }
 
-    public void addGamesAndIdsToMap(String gameName, int id){
-        this.gameAndIdMap.put( gameName, id);
+    public void addGamesAndIdsToMap(Map<String, String> gameAndIdMap){
+        this.gameAndIdMap = gameAndIdMap;
     }
 
-    public int gameId (String gameName){
+    public String gameId (String gameName){
         return this.gameAndIdMap.get( gameName );
+    }
+
+    public Set<String> getGameNameSet() {
+        return gameAndIdMap.keySet();
     }
 }

@@ -1,6 +1,8 @@
 package presenter;
 
 import constants.EventSource;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import model.HomeViewModel;
 import model.lottogamemodels.FivePositionLotteryGame;
@@ -16,7 +18,6 @@ public final class HomePresenter extends BasePresenter<HomeView, HomeViewModel> 
     public HomePresenter(Stage primaryStage){
         super(new HomeView(),new HomeViewModel(new FivePositionLotteryGame("Cash Five",1,1,35)));
         this.primaryStage = primaryStage;
-
         getView().setPresenter((this));
         CacheSetup();
         getView().setUpUi();
@@ -29,7 +30,7 @@ public final class HomePresenter extends BasePresenter<HomeView, HomeViewModel> 
     }
 
     @Override
-    public void onModelChanged(String value) {
+    public <T extends String> void onModelChanged(T value) {
 
     }
 
@@ -110,7 +111,10 @@ public final class HomePresenter extends BasePresenter<HomeView, HomeViewModel> 
         getView().enableViewContents();
     }
 
-    void navigateToDefaultScreen() {
-        getView().disableDashboardButton();
+    <T extends String> void loadNewGame(T gameName) {
+        LottoDashBoardPresenter lottoDashBoardPresenter = new LottoDashBoardPresenter( gameName );
+        getView().enableOtherButtons();
+        getView().injectView( lottoDashBoardPresenter.getView() );
+
     }
 }

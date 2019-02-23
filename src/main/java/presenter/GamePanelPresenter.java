@@ -1,42 +1,62 @@
 package presenter;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.GamePanelModel;
+import services.gamepanelservice.GamePanelService;
 import ui.GamePanelView;
+
+import java.util.Map;
+import java.util.Set;
 
 public final class GamePanelPresenter extends BasePresenter<GamePanelView, GamePanelModel> {
 
     private Stage primaryStage;
     private HomePresenter homePresenter;
+    private Stage panelStage = new Stage();
 
     GamePanelPresenter(Stage primaryStage, HomePresenter homePresenter){
         super(new GamePanelView(), new GamePanelModel());
         this.primaryStage = primaryStage;
         this.homePresenter = homePresenter;
-        // once you create the method to handle game selection events make sure to call the below method to navigate back to dashboard
-           //homePresenter.navigateToDefaultScreen();
+        getView().setPresenter( (this) );
+        loadAllLotteryGames();
+        getView().setUpUi();
         loadGamePanelStage();
+    }
+
+    @Override
+    public <T extends String> void onModelChanged(T value) {
+        panelStage.close();
+        homePresenter.enableViewContents();
+        this.homePresenter.loadNewGame( value );
+    }
+
+    private void loadAllLotteryGames() {
+        Map<String,String> gameAndIdMap = new GamePanelService().getGamesAndIds();
+        getModel().addGamesAndIdsToMap( gameAndIdMap );
+    }
+
+    public Set<String> getGameNames(){
+        return getModel().getGameNameSet();
     }
 
     private void loadGamePanelStage() {
         homePresenter.disableViewContents();
 
-        Stage panelStage = new Stage();
         panelStage.setTitle("Game Panel");
         panelStage.setScene(new Scene(getView()));
         panelStage.show();
 
         panelStage.setOnHiding(event -> {
             primaryStage.show();
-            homePresenter.getView().enableOtherButtons("Lotto Dashboard");
+            homePresenter.getView().enablePanelButton();
             homePresenter.enableViewContents();
         });
     }
 
-    @Override
-    public void onModelChanged(String value) {
-
-    }
 }

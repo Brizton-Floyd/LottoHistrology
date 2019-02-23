@@ -9,6 +9,7 @@ public abstract class BasePresenter<V extends BaseView, M extends ModelBase> imp
     private V view;
     private M model;
 
+    BasePresenter(){}
     BasePresenter(V view, M model) {
         this.view = view;
         this.model = model;
@@ -17,6 +18,10 @@ public abstract class BasePresenter<V extends BaseView, M extends ModelBase> imp
 
     protected void setModel(M model) {
         this.model = model;
+    }
+
+    protected void setView(V view){
+        this.view = view;
     }
 
     public V getView() {
